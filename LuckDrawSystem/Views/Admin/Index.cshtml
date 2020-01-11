@@ -1,0 +1,66 @@
+﻿@model LuckDrawSystem.Models.PrizeWinner
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="text-center">@Html.ValidationMessageFor(m => m.UserId, "", new { @class = "text-danger" })</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>PrizeDetail</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PrizeType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.PrizeType, new List<SelectListItem>() {
+        new SelectListItem{Text="First Prize",Value="1"},
+        new SelectListItem{Text="Second Prize - 1st Winner",Value="2"},
+        new SelectListItem{Text="Second Prize - 2nd Winner",Value="3"},
+        new SelectListItem{Text="Third Prize - 1st Winner",Value="4"},
+        new SelectListItem{Text="Third Prize - 2nd Winner",Value="5"},
+        new SelectListItem{Text="Third Prize - 3rd Winner",Value="6"},
+        }, "Select prize for draw*", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PrizeType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Generate Randomly", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("isRandom", new List<SelectListItem>() {
+           new SelectListItem(){Text="Yes",Value="1"}
+           ,new SelectListItem(){Text="No",Value="0",Selected=true}
+           }, new { @class = "form-control" })
+                @Html.ValidationMessage("Random", "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Number", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Editor("Number", new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessage("Number", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @Html.HiddenFor(m => m.UserId, new { Value = Session["UserId"] })
+
+    </div>
+    
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Draw" class="btn btn-default" />
+        </div>
+    </div>
+
+
+
+}
+
+
